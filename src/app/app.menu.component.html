@@ -1,0 +1,15 @@
+<div class="layout-menu-container">
+  <ul class="layout-menu" role="menu" (keydown)="onKeydown($event)">
+    <li class="layout-menuitem-category" *ngFor="let item of model; let i = index;" role="none">
+      <div class="layout-menuitem-root-text" [attr.aria-label]="item.label">{{item.label}}</div>
+      <ul role="menu">
+        <app-menu-item *ngFor="let child of item.items" [item]="child" [index]="i" [root]="true" role="none">
+        </app-menu-item>
+        <!--        <li app-menu-item *ngFor="let child of [item.items]" [item]="child" [index]="i" [root]="true" role="none"></li>-->
+      </ul>
+    </li>
+  </ul>
+</div>
+
+
+<p-menu [model]="items1"></p-menu>
