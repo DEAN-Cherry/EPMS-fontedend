@@ -8,7 +8,8 @@ import { CommonMessage, AuthenticationClient } from '@authing/ng-ui-components';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  appId = '6265628d66dc6339228aa234';
+  appId = '626e262cbed45d0f522be234';
+  visable: boolean = true;
 
   onLoad([e]: [AuthenticationClient]) {
     console.log('onLoad', e);

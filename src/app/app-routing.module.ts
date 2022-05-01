@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: 'dashboard', component: MainComponent },
   { path: 'login', component: LoginComponent },
   { path: 'app', component: AppComponent },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({

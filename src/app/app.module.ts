@@ -19,7 +19,7 @@ import { LandingComponent } from './components/landing/landing.component';
 import { DividerModule } from 'primeng/divider';
 import { StyleClassModule } from 'primeng/styleclass';
 import { LoginComponent } from './components/login/login.component';
-import { GuardModule } from '@authing/ng-ui-components';
+import { AuthingGuardModule, GuardModule } from '@authing/ng-ui-components';
 
 @NgModule({
   declarations: [

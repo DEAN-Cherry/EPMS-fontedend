@@ -11,6 +11,7 @@ export class AppComponent {
   menuMode = 'static';
   title = 'demo';
   appId = '626e262cbed45d0f522be234';
+  visible: boolean = true;
 
   constructor(private primeNGConfig: PrimeNGConfig) {}
 
