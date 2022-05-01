@@ -5,13 +5,13 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { filter, subscribeOn, Subscription } from 'rxjs';
-import { MainComponent } from './app.main.component';
-import { Router } from '@angular/router';
-import { ChangeDetection } from '@angular/cli/lib/config/workspace-schema';
-import { AppMenuService } from './service/app.menu.service';
-import { MenuItem } from 'primeng/api';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {filter, subscribeOn, Subscription} from 'rxjs';
+import {MainComponent} from './app.main.component';
+import {Router} from '@angular/router';
+import {ChangeDetection} from '@angular/cli/lib/config/workspace-schema';
+import {AppMenuService} from './service/app.menu.service';
+import {MenuItem} from 'primeng/api';
 
 @Component({
   selector: 'app-menu-item',
@@ -103,8 +103,7 @@ export class MenuItemComponent implements OnInit, OnDestroy {
     // for(let child in this.item.value()){
     //   this.childItems.push(child);
     // }
-    console.log(this.item);
-    console.log(typeof this.item);
+
     this.key = this.parentKey
       ? this.parentKey + '-' + this.index
       : String(this.index);
@@ -123,7 +122,7 @@ export class MenuItemComponent implements OnInit, OnDestroy {
 
     // execute command
     if (this.item.command) {
-      this.item.command({ originalEvent: event, item: this.item });
+      this.item.command({originalEvent: event, item: this.item});
     }
 
     // toggle active state
@@ -133,21 +132,20 @@ export class MenuItemComponent implements OnInit, OnDestroy {
       // activate item
       this.active = true;
 
-      // // hide overlay menus
-      // this.app.menuActiveMobile = false;
-      //
-      // if (this.app.isDesktop() && this.app.isOverlay()) {
-      //   this.app.menuInactiveDesktop = true;
-      // }
+      // hide overlay menus
+      this.app.menuActiveMobile = false;
+
+      if (this.app.isDesktop() && this.app.isOverlay()) {
+        this.app.menuInactiveDesktop = true;
+      }
     }
   }
 
   updateActiveStateFromRoute() {
     this.active = this.router.isActive(
       this.item.routerLink[0],
-      this.item.routerLink[1]
+      !this.item.items
     );
-    this.router.isActive(this.item.routerLink[0], !this.item.items);
   }
 
   ngOnDestroy() {

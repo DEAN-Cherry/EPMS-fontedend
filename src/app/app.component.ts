@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonMessage, AuthenticationClient } from '@authing/ng-ui-components';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,13 @@ import { CommonMessage, AuthenticationClient } from '@authing/ng-ui-components';
 export class AppComponent {
   menuMode = 'static';
   title = 'demo';
-  appId = '6265628d66dc6339228aa234';
+  appId = '626e262cbed45d0f522be234';
+
+  constructor(private primeNGConfig: PrimeNGConfig) {}
+
+  ngOnInit() {
+    this.primeNGConfig.ripple = true;
+  }
 
   onLoad([e]: [AuthenticationClient]) {
     console.log('onLoad', e);

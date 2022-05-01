@@ -15,15 +15,7 @@ export class MenuComponent implements OnInit {
 
   constructor() {}
 
-  // get items(): any[] {
-  //   return this.model;
-  // }
-  applyScale() {
-    document.documentElement.style.fontSize = 14 + 'px';
-  }
-
   ngOnInit(): void {
-    this.applyScale();
     this.items1 = [
       {
         label: 'File',
@@ -183,7 +175,7 @@ export class MenuComponent implements OnInit {
           {
             label: 'Landing',
             icon: 'pi pi-fw pi-globe',
-            routerLink: ['pages/landing'],
+            routerLink: [''],
           },
           {
             label: 'Login',

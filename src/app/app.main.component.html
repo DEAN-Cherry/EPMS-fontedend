@@ -1,1 +1,21 @@
-<p>app.main works!</p>
+<div class="layout-wrapper" [ngClass]="{'layout-overlay':isOverlay(),
+                                'layout-static':isStatic(),
+                                'layout-theme-light':!config.dark,
+                                'layout-theme-dark':config.dark,
+                                'layout-overlay-sidebar-active': overlayMenuActive,
+                                'layout-static-sidebar-inactive': staticMenuInactive,
+                                'layout-mobile-sidebar-active':menuActiveMobile,
+                                'p-ripple-disabled': !config.ripple, 'p-input-filled': config.inputStyle === 'filled'}">
+  <app-top-bar></app-top-bar>
+
+
+  <!--<authing-guard [appId]="appId" (onLoad)="onLoad($event)"></authing-guard>-->
+  <!--<router-outlet></router-outlet>-->
+  <!--<app-main></app-main>-->
+  <div class="layout-sidebar">
+    <app-menu></app-menu>
+  </div>
+  <router-outlet></router-outlet>
+  <app-config></app-config>
+  <div *ngIf="menuActiveMobile" class="layout-mask p-component-overlay"></div>
+</div>

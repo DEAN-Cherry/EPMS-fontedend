@@ -3,28 +3,51 @@
 @import "../node_modules/primeflex/primeflex.scss";
 @import "../node_modules/primeicons/primeicons.css";
 @import "../node_modules/prismjs/themes/prism-coy.css";
-@import "../node_modules/primeng/resources/themes/lara-light-blue/theme.css";
+//@import "../node_modules/primeng/resources/themes/lara-light-blue/theme.css";
 @import "assets/demo/flags/flags.css";
 @import "assets/demo/documentation.scss";
 @import "assets/sass/layout/_variables";
 @import "assets/sass/layout/_layout";
 @import "assets/sass/overrides/_overrides";
+
 *::-webkit-scrollbar {
-    width: 16px;
+  width: 16px;
 }
 
 *::-webkit-scrollbar-track {
-    border-radius: 8px;
+  border-radius: 8px;
 }
 
 *::-webkit-scrollbar-thumb {
-    height: 56px;
-    border-radius: 8px;
-    border: 4px solid transparent;
-    background-clip: content-box;
-    background-color: #888;
+  height: 56px;
+  border-radius: 8px;
+  border: 4px solid transparent;
+  background-clip: content-box;
+  background-color: #888;
 }
 
 *::-webkit-scrollbar-thumb:hover {
-    background-color: #555;
+  background-color: #555;
+}
+
+.font-xiao-wei {
+  font-family: "ZCOOL XiaoWei", serif;
+}
+
+.font-serif {
+  font-family: "Noto Serif", serif;
+}
+
+.font-serif-sc {
+  font-family: "Noto Serif SC", serif;
+}
+
+.font-sans-sc {
+
+  font-family: "Noto Sans SC", sans-serif;
+}
+
+.surface-top-bar-menu {
+  background-color: rgba(var(--surface-card-rgb), $background-opacity) !important;
+  backdrop-filter: blur(12px);
 }

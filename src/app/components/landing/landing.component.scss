@@ -1,0 +1,67 @@
+
+#hero {
+  //background: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), radial-gradient(77.36% 256.97% at 77.36% 57.52%, #EEEFAF 0%, #C3E3FA 100%);
+  // background: linear-gradient(to right, #2c3e50, #4ca1af);
+  height: 700px;
+  overflow: hidden;
+
+  //font-family: 'Noto Serif SC', serif;
+  //text-shadow: 4px 4px 4px #aaa;
+
+
+}
+
+.font-serif-sc {
+  font-family: 'Noto Serif SC', serif;
+  text-shadow: 4px 4px 4px #aaa;
+}
+
+.font-sans-sc {
+  font-family: 'Noto Sans SC', sans-serif;
+}
+
+.pricing-card:hover {
+  border: 2px solid var(--cyan-200) !important;
+}
+
+@media screen and (min-width: 768px) {
+  #hero {
+    -webkit-clip-path: ellipse(150% 87% at 93% 13%);
+    clip-path: ellipse(150% 87% at 93% 13%);
+    height: 530px;
+  }
+}
+
+@media screen and (min-width: 1300px) {
+  #hero > img {
+    position: absolute;
+    transform: scale(1.2);
+    top: 15%;
+  }
+
+  #hero > div > p {
+    max-width: 450px;
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  #hero {
+    height: 600px;
+  }
+
+  #hero > img {
+    position: static;
+    transform: scale(1);
+    margin-left: auto;
+  }
+
+  #hero > div {
+    width: 100%;
+  }
+
+  #hero > div > p {
+    width: 100%;
+    max-width: 100%;
+  }
+}
