@@ -19,7 +19,8 @@ import { LandingComponent } from './components/landing/landing.component';
 import { DividerModule } from 'primeng/divider';
 import { StyleClassModule } from 'primeng/styleclass';
 import { LoginComponent } from './components/login/login.component';
-import { AuthingGuardModule, GuardModule } from '@authing/ng-ui-components';
+import { GuardModule } from '@authing/ng-ui-components';
+import { KeycloakComponent } from './components/keycloak/keycloak.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { AuthingGuardModule, GuardModule } from '@authing/ng-ui-components';
     ConfigComponent,
     LandingComponent,
     LoginComponent,
+    KeycloakComponent,
   ],
   imports: [
     BrowserModule,
