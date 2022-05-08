@@ -35,13 +35,16 @@
       </ul>
       <!--登陆注册-->
       <div class="flex justify-content-between lg:block border-top-1 lg:border-top-none surface-border py-3 lg:py-0 mt-3 mr-8 lg:mt-0">
-        <button *ngIf="!isProfileHidden" pButton pRipple type="button" routerLink="/login" label="登陆/注册"
+        <button *ngIf="!isLoggedIn" pButton pRipple type="button" (click)="login()" label="登陆/注册"
                 class="p-button-outlined font-sans-sc font-bold px-3 p-button-rounded"></button>
         <!--登录态显示 //TODO 记得动态绑定图片-->
-        <a routerLink="" class="p-link layout-topbar-button mr-8" *ngIf="isProfileHidden">
-          <i class="pi pi-user"></i>
-          <span>Profile</span>
-        </a>
+        <!--        <a routerLink="" class="p-link layout-topbar-button mr-8" *ngIf="isLoggedIn">-->
+        <!--          <i class="pi pi-user"></i>-->
+        <ng-container *ngIf="userProfile">
+          <p-avatar *ngIf="isLoggedIn" styleClass="mr-2" size="large" shape="circle">{{userProfile.firstName}}</p-avatar>
+        </ng-container>
+        <!--          <span>Profile</span>-->
+        <!--        </a>-->
 
         <!--        <button pButton pRipple label="Login" class="p-button-text p-button-rounded border-none font-light line-height-2 text-blue-500"></button>-->
         <!--        <button pButton pRipple label="注册" class="p-button-rounded font-sans-sc border-none ml-5 px-3 bg-blue-500"></button>-->
@@ -65,7 +68,7 @@
     <div id="features" class="py-4 px-4 lg:px-8 mt-5 mx-0 lg:mx-8">
       <div class="grid justify-content-center font-sans-sc">
         <div class="col-12 text-center mt-8 mb-4">
-          <h2 class="text-7xl font-normal mb-2 font-xiao-wei">成果展示，就该如此便捷</h2>
+          <h2 class="text-7xl font-normal mb-2 font-xiao-wei">成果展示，便捷操作</h2>
           <span class="text-600 text-2xl font-serif">Marvelous Features...</span>
         </div>
 

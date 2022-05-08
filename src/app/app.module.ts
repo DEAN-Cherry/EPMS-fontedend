@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -21,6 +21,26 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { LoginComponent } from './components/login/login.component';
 import { GuardModule } from '@authing/ng-ui-components';
 import { KeycloakComponent } from './components/keycloak/keycloak.component';
+import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
+import { initializeKeycloak } from './api/keycloak-init';
+import { AvatarModule } from 'primeng/avatar';
+
+// function initializeKeycloak(keycloak: KeycloakService) {
+//   return () =>
+//     keycloak.init({
+//       config: {
+//         url: 'http://localhost:8085',
+//         realm: 'epms',
+//         clientId: 'epms-client',
+//       },
+//       bearerExcludedUrls: ['/assets', 'clients/public'],
+//       initOptions: {
+//         onLoad: 'check-sso',
+//         silentCheckSsoRedirectUri:
+//           window.location.origin + '/assets/silent-check-sso.html',
+//       },
+//     });
+// }
 
 @NgModule({
   declarations: [
@@ -47,9 +67,17 @@ import { KeycloakComponent } from './components/keycloak/keycloak.component';
     RippleModule,
     DividerModule,
     StyleClassModule,
-    GuardModule,
+    KeycloakAngularModule,
+    AvatarModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService],
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
