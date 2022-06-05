@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
 import { LoginService } from '../../service/login.service';
 import { KeycloakProfile } from 'keycloak-js';
+import { MenuItem } from 'primeng/api';
 
 @Component({
   selector: 'app-landing',
@@ -13,7 +14,8 @@ import { KeycloakProfile } from 'keycloak-js';
   styleUrls: ['./landing.component.scss'],
 })
 export class LandingComponent implements OnInit, OnDestroy {
-  @Output() public isLoggedIn: boolean = false;
+  isLoggedIn: boolean = false;
+  items!: MenuItem[];
   config!: AppConfig;
   subscription!: Subscription;
   public userProfile: KeycloakProfile | null = null;
@@ -27,13 +29,34 @@ export class LandingComponent implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
+    this.items = [
+      {
+        label: '个人中心',
+        icon: 'pi pi-fw pi-user',
+        url: 'http://localhost:8085/realms/epms/account/',
+      },
+      { label: 'Remove User', icon: 'pi pi-fw pi-user-minus' },
+
+      {
+        separator: true,
+      },
+      {
+        label: '登出',
+        icon: 'pi pi-fw pi-sign-out',
+        command: () => {
+          this.logout();
+        },
+      },
+    ];
     this.config = this.configService.getConfig();
     this.configService.applyScale();
     this.subscription = this.configService.configUpdate$.subscribe((config) => {
       this.config = config;
     });
     this.isLoggedIn = await this.keycloak.isLoggedIn();
-    this.userProfile = await this.keycloak.loadUserProfile();
+    if (this.isLoggedIn) {
+      this.userProfile = await this.keycloak.loadUserProfile();
+    }
   }
 
   ngOnDestroy(): void {
@@ -43,8 +66,10 @@ export class LandingComponent implements OnInit, OnDestroy {
   }
 
   public login() {
-    this.keycloak.login().then((r) => {
-      console.log(r);
-    });
+    this.keycloak.login().then((_) => {});
+  }
+
+  public logout() {
+    this.keycloak.logout().then((_) => {});
   }
 }

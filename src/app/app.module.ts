@@ -24,23 +24,15 @@ import { KeycloakComponent } from './components/keycloak/keycloak.component';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { initializeKeycloak } from './api/keycloak-init';
 import { AvatarModule } from 'primeng/avatar';
-
-// function initializeKeycloak(keycloak: KeycloakService) {
-//   return () =>
-//     keycloak.init({
-//       config: {
-//         url: 'http://localhost:8085',
-//         realm: 'epms',
-//         clientId: 'epms-client',
-//       },
-//       bearerExcludedUrls: ['/assets', 'clients/public'],
-//       initOptions: {
-//         onLoad: 'check-sso',
-//         silentCheckSsoRedirectUri:
-//           window.location.origin + '/assets/silent-check-sso.html',
-//       },
-//     });
-// }
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { PanelMenuModule } from 'primeng/panelmenu';
+import { TieredMenuModule } from 'primeng/tieredmenu';
+import { ProfileComponent } from './components/profile/profile.component';
+import { SchoolComponent } from './components/internship_management/school/school.component';
+import { ClassComponent } from './components/internship_management/class/class.component';
+import { DashboardComponent } from './components/internship_management/dashboard/dashboard.component';
+import { DataViewModule } from 'primeng/dataview';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -53,6 +45,10 @@ import { AvatarModule } from 'primeng/avatar';
     LandingComponent,
     LoginComponent,
     KeycloakComponent,
+    ProfileComponent,
+    SchoolComponent,
+    ClassComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,6 +65,10 @@ import { AvatarModule } from 'primeng/avatar';
     StyleClassModule,
     KeycloakAngularModule,
     AvatarModule,
+    OverlayPanelModule,
+    PanelMenuModule,
+    TieredMenuModule,
+    DataViewModule,
   ],
   providers: [
     {

@@ -41,8 +41,21 @@
         <!--        <a routerLink="" class="p-link layout-topbar-button mr-8" *ngIf="isLoggedIn">-->
         <!--          <i class="pi pi-user"></i>-->
         <ng-container *ngIf="userProfile">
-          <p-avatar *ngIf="isLoggedIn" styleClass="mr-2" size="large" shape="circle">{{userProfile.firstName}}</p-avatar>
+          <!--          <p-avatar *ngIf="isLoggedIn" styleClass="mr-2" size="large" shape="circle">{{userProfile.firstName}}</p-avatar>-->
+
+          <p-overlayPanel #op [showCloseIcon]="true">
+            <ng-template pTemplate>
+              <p-tieredMenu (mouseleave)="op.hide()" [model]="items"></p-tieredMenu>
+            </ng-template>
+          </p-overlayPanel>
+          <p-avatar *ngIf="isLoggedIn" class="cursor-pointer" pRipple (mouseover)="op.show($event)" styleClass="mr-2 text-xl font-serif-sc"
+                    size="large"
+                    shape="circle"
+                    (click)="op.show($event)">{{userProfile.firstName}}
+          </p-avatar>
         </ng-container>
+
+
         <!--          <span>Profile</span>-->
         <!--        </a>-->
 
@@ -50,9 +63,10 @@
         <!--        <button pButton pRipple label="注册" class="p-button-rounded font-sans-sc border-none ml-5 px-3 bg-blue-500"></button>-->
         <!--        <button pButton pRipple type="button" label="注册" class="p-button-rounded font-sans-sc px-3 ml-5 "></button>-->
       </div>
-
     </div>
     <!--    </div>-->
+
+
   </div>
   <div style="padding-top: 78px">
     <div id="hero" class="grid py-4 px-4 lg:px-8 relative">

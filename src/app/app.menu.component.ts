@@ -36,7 +36,41 @@ export class MenuComponent implements OnInit {
       {
         label: 'Home',
         items: [
-          { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/'] },
+          {
+            label: 'Dashboard',
+            icon: 'pi pi-fw pi-home',
+            routerLink: ['/dashboard'],
+          },
+        ],
+      },
+      {
+        label: '实习管理',
+        items: [
+          {
+            label: '实习学校',
+            icon: 'pi pi-fw pi-home',
+            routerLink: ['/dashboard/school'],
+          },
+          {
+            label: '实习班级',
+            icon: 'pi pi-fw pi-home',
+            routerLink: ['/dashboard/class'],
+          },
+          {
+            label: '实习学生',
+            icon: 'pi pi-fw pi-home',
+            routerLink: ['/dashboard/student'],
+          },
+          {
+            label: '实习列表',
+            icon: 'pi pi-fw pi-list',
+            routerLink: ['/internships'],
+          },
+          {
+            label: '实习报告',
+            icon: 'pi pi-fw pi-file',
+            routerLink: ['/internship-reports'],
+          },
         ],
       },
       {

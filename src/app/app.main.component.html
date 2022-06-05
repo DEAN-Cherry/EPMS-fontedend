@@ -7,15 +7,14 @@
                                 'layout-mobile-sidebar-active':menuActiveMobile,
                                 'p-ripple-disabled': !config.ripple, 'p-input-filled': config.inputStyle === 'filled'}">
   <app-top-bar></app-top-bar>
-
-
-  <!--  <authing-guard [appId]="appId" (onLoad)="onLoad($event)"></authing-guard>-->
-  <router-outlet></router-outlet>
-  <!--<app-main></app-main>-->
   <div class="layout-sidebar">
     <app-menu></app-menu>
   </div>
-  <router-outlet></router-outlet>
+  <div class="layout-main-container">
+    <div class="layout-main">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
   <app-config></app-config>
   <div *ngIf="menuActiveMobile" class="layout-mask p-component-overlay"></div>
 </div>
