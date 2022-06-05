@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { CommonMessage, AuthenticationClient } from '@authing/ng-ui-components';
 import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
@@ -17,9 +16,5 @@ export class AppComponent {
 
   ngOnInit() {
     this.primeNGConfig.ripple = true;
-  }
-
-  onLoad([e]: [AuthenticationClient]) {
-    console.log('onLoad', e);
   }
 }

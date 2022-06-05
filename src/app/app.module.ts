@@ -19,7 +19,6 @@ import { LandingComponent } from './components/landing/landing.component';
 import { DividerModule } from 'primeng/divider';
 import { StyleClassModule } from 'primeng/styleclass';
 import { LoginComponent } from './components/login/login.component';
-import { GuardModule } from '@authing/ng-ui-components';
 import { KeycloakComponent } from './components/keycloak/keycloak.component';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { initializeKeycloak } from './api/keycloak-init';
@@ -54,7 +53,6 @@ import { DropdownModule } from 'primeng/dropdown';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    GuardModule,
     MenuModule,
     RadioButtonModule,
     InputSwitchModule,
