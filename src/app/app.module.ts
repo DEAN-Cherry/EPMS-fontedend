@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppTopBarComponent } from './app-topbar/app-topbar.component';
@@ -32,6 +32,10 @@ import { ClassComponent } from './components/internship_management/class/class.c
 import { DashboardComponent } from './components/internship_management/dashboard/dashboard.component';
 import { DataViewModule } from 'primeng/dataview';
 import { DropdownModule } from 'primeng/dropdown';
+import { RatingModule } from 'primeng/rating';
+import { InputTextModule } from 'primeng/inputtext';
+import { OrderListModule } from 'primeng/orderlist';
+import { PickListModule } from 'primeng/picklist';
 
 @NgModule({
   declarations: [
@@ -52,6 +56,7 @@ import { DropdownModule } from 'primeng/dropdown';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     AppRoutingModule,
     MenuModule,
     RadioButtonModule,
@@ -67,6 +72,11 @@ import { DropdownModule } from 'primeng/dropdown';
     PanelMenuModule,
     TieredMenuModule,
     DataViewModule,
+    DropdownModule,
+    RatingModule,
+    InputTextModule,
+    OrderListModule,
+    PickListModule,
   ],
   providers: [
     {

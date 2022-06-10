@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,7 @@ export class AppComponent {
   appId = '626e262cbed45d0f522be234';
   visible: boolean = true;
 
-  constructor(private primeNGConfig: PrimeNGConfig) {}
+  constructor(private primeNGConfig: PrimeNGConfig, private http: HttpClient) {}
 
   ngOnInit() {
     this.primeNGConfig.ripple = true;
