@@ -1,0 +1,8 @@
+version: "3.9"
+services:
+  epms-keycloak:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8085:8080"
