@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { AppConfig } from '../api/appconfig';
-import { PrimeNGConfig } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ConfigService {
   config: AppConfig = {
-    theme: 'bootstrap4-light-blue',
+    // theme: 'bootstrap4-light-blue',
+    theme: 'lara-light-blue',
     dark: false,
     inputStyle: 'outlined',
     ripple: true,

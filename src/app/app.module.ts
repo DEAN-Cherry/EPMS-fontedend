@@ -36,6 +36,16 @@ import { RatingModule } from 'primeng/rating';
 import { InputTextModule } from 'primeng/inputtext';
 import { OrderListModule } from 'primeng/orderlist';
 import { PickListModule } from 'primeng/picklist';
+import { ToastModule } from 'primeng/toast';
+import { ToolbarModule } from 'primeng/toolbar';
+import { FileUploadModule } from 'primeng/fileupload';
+import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { SchoolCRUDComponent } from './components/internship_management/school-crud/school-crud.component';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { ImageModule } from 'primeng/image';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
   declarations: [
@@ -52,6 +62,7 @@ import { PickListModule } from 'primeng/picklist';
     SchoolComponent,
     ClassComponent,
     DashboardComponent,
+    SchoolCRUDComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,6 +88,15 @@ import { PickListModule } from 'primeng/picklist';
     InputTextModule,
     OrderListModule,
     PickListModule,
+    ToastModule,
+    ToolbarModule,
+    FileUploadModule,
+    TableModule,
+    DialogModule,
+    InputNumberModule,
+    InputTextareaModule,
+    ImageModule,
+    ConfirmDialogModule,
   ],
   providers: [
     {

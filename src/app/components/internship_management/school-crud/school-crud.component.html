@@ -1,0 +1,342 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button (click)="openNew()" class="p-button-success mr-2" icon="pi pi-plus" label="新建学校" pButton pRipple></button>
+                        <button (click)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length" class="p-button-danger" icon="pi pi-trash"
+                                label="删除学校" pButton
+                                pRipple></button>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <p-fileUpload (onUpload)="onUpload($event)" [auto]="true" [maxFileSize]="1000000000" [url]="'api/Images?imageType=' + imageType" accept="image/*"
+                                  chooseLabel="上传图片"
+                                  class="mr-2 inline-block"
+                                  label="Import" mode="basic" name="files">
+                    </p-fileUpload>
+                    <p-button (onClick)="onBeforeUpload($event)" class="mr-2" icon="pi pi-ellipsis-v"></p-button>
+                    <button (click)="exportExcel()" class="p-button-help" icon="pi pi-file-excel" label="导出学校数据" pButton pRipple pTooltip="XLS" tooltipPosition="bottom"></button>
+                </ng-template>
+            </p-toolbar>
+
+            <!--            <p-fileUpload name="files" url="api/Images?imageType=10" (onUpload)="onUpload($event)"-->
+            <!--                          [multiple]="true" accept="image/*" [maxFileSize]="1000000">-->
+            <!--                <ng-template pTemplate="content">-->
+            <!--                    <ul *ngIf="uploadFiles.length">-->
+            <!--                        <li *ngFor="let file of uploadFiles">{{file.name}} - {{file.size}} bytes</li>-->
+            <!--                    </ul>-->
+            <!--                </ng-template>-->
+            <!--            </p-fileUpload>-->
+            <p-dialog [(visible)]="uploadDialog" [modal]="true" [style]="{width: '450px'}" class="p-fluid" header="上传设置">
+                <ng-template pTemplate="upload-content">
+                    <div class="field mt-4">
+                        <label class="font-serif-sc font-bold text-lg" for="type">图片类型</label>
+                        <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon">
+                            <i class="pi pi-info"></i>
+                        </span>
+                            <input [(ngModel)]="imageType" [ngClass]="{'ng-invalid ng-dirty' : submitted && !imageType}" autofocus id="type" pInputText required
+                                   type="text"/>
+                        </div>
+                        <small *ngIf="submitted && !imageType" class="ng-dirty ng-invalid text-orange-500">请输入图片类型.</small>
+
+                        <button (click)="hideDialog()" class="p-button-text" icon="pi pi-times" label="取消" pButton pRipple></button>
+                        <button (click)="saveImage()" class="p-button-text" icon="pi pi-check" label="保存" pButton pRipple></button>
+                    </div>
+
+
+                </ng-template>
+
+            </p-dialog>
+
+
+            <p-table #dt1 [(selection)]="selectedProducts" [globalFilterFields]="['id','schoolName','schoolType','schoolRating']" [paginator]="true" [rowHover]="true" [rows]="10"
+                     [showCurrentPageReport]="true" [value]="schools" currentPageReportTemplate="第 {first} 到 {last}，共 {totalRecords} 项"
+                     dataKey="id" responsiveLayout="scroll">
+                <ng-template pTemplate="caption">
+                    <div class="flex align-items-center justify-content-between">
+                        <h5 class="m-0">学校管理</h5>
+                        <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input (input)="dt1.filterGlobal($any($event).target.value, 'contains')" pInputText placeholder="搜索..." type="text"/>
+                </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th pSortableColumn="id">ID
+                            <p-sortIcon field="id"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="name">学校名称
+                            <p-sortIcon field="name"></p-sortIcon>
+                        </th>
+                        <th>学校图片</th>
+                        <th pSortableColumn="quantity">实习人数
+                            <p-sortIcon field="quantity"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="category">学校类别
+                            <p-sortIcon field="category"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="rating">学校评分
+                            <p-sortIcon field="rating"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="inventoryStatus">学校可选状态
+                            <p-sortIcon field="inventoryStatus"></p-sortIcon>
+                        </th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template let-school pTemplate="body">
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="school"></p-tableCheckbox>
+                        </td>
+                        <td>{{school.id}}</td>
+                        <td>{{school.schoolName}}</td>
+                        <td><img [alt]="school.schoolName" [src]="school.imageUrl" class="shadow-4" width="100"/></td>
+                        <td>{{school.participantNumber}}/{{school.schoolMax}}</td>
+                        <td>{{school.schoolType}}</td>
+                        <td>
+                            <p-rating [cancel]="false" [ngModel]="school.schoolRating" [readonly]="true"></p-rating>
+                        </td>
+                        <!--            <td><span [class]="'product-badge status-' + (product.inventoryStatus ? product.inventoryStatus.toLowerCase() : '')">{{product.inventoryStatus}}</span></td>-->
+                        <td><span
+                                [class]="'product-badge status-' +(school.participantNumber/school.schoolMax < 0.75 ? school.participantNumber/school.schoolMax < 0.5 ?'instock' : 'lowstock' :'outofstock')">{{statusText(school.participantNumber, school.schoolMax)}}</span>
+                        </td>
+                        <td>
+                            <button (click)="editSchool(school)" class="p-button-rounded p-button-success mr-2" icon="pi pi-pencil" pButton pRipple></button>
+                            <button (click)="deleteSchool(school)" class="p-button-rounded p-button-warning" icon="pi pi-trash" pButton pRipple></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                    <div class="flex align-items-center justify-content-between">
+                        共计 {{school ? 0 : schools.length}} 所学校.
+                    </div>
+                </ng-template>
+            </p-table>
+            <!--
+                        <p-table #dt [value]="products" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['name','country.name','representative.name','status']"
+                                 [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
+                                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedProducts" selectionMode="multiple" [rowHover]="true"
+                                 dataKey="id">
+                            <ng-template pTemplate="caption">
+                                <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                                    <h5 class="m-0">Manage Products</h5>
+                                    <span class="block mt-2 md:mt-0 p-input-icon-left">
+                                        <i class="pi pi-search"></i>
+                                        <input pInputText type="text" (input)="dt.filterGlobal($any($event).target.value, 'contains')" placeholder="Search..."/>
+                                    </span>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 3rem">
+                                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                    </th>
+                                    <th pSortableColumn="code">Code
+                                        <p-sortIcon field="code"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="name">Name
+                                        <p-sortIcon field="name"></p-sortIcon>
+                                    </th>
+                                    <th>Image</th>
+                                    <th pSortableColumn="price">Price
+                                        <p-sortIcon field="price"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="category">Category
+                                        <p-sortIcon field="category"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="rating">Reviews
+                                        <p-sortIcon field="rating"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="inventoryStatus">Status
+                                        <p-sortIcon field="inventoryStatus"></p-sortIcon>
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-product>
+                                <tr>
+                                    <td>
+                                        <p-tableCheckbox [value]="product"></p-tableCheckbox>
+                                    </td>
+                                    <td style="width:14%; min-width:10rem;"><span class="p-column-title">Code</span>
+                                        {{product.code || product.id}}
+                                    </td>
+                                    <td style="width:14%; min-width:10rem;">
+                                        <span class="p-column-title">Name</span>
+                                        {{product.name}}
+                                    </td>
+                                    <td style="width:14%; min-width:10rem;"><span class="p-column-title">Image</span>
+                                        <img [src]="'assets/demo/images/product/' + product.image" [alt]="product.name" width="100" class="shadow-4"/>
+                                    </td>
+                                    <td style="width:14%; min-width:8rem;">
+                                        <span class="p-column-title">Price</span>
+                                        {{product.price | currency:'USD'}}
+                                    </td>
+                                    <td style="width:14%; min-width:10rem;">
+                                        <span class="p-column-title">Category</span>
+                                        {{product.category}}
+                                    </td>
+                                    <td style="width:14%; min-width: 10rem;"><span class="p-column-title">Reviews</span>
+                                        <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
+                                    </td>
+                                    <td style="width:14%; min-width: 10rem;"><span class="p-column-title">Status</span>
+                                        <span [class]="'product-badge status-' + (product.inventoryStatus ? product.inventoryStatus.toLowerCase() : '')">{{product.inventoryStatus}}</span>
+                                    </td>
+                                    <td>
+                                        <div class="flex">
+                                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(product)"></button>
+                                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(product)"></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+            -->
+            <p-dialog [(visible)]="schoolDialog" [modal]="true" [style]="{width: '450px'}" class="p-fluid" header="学校信息">
+                <ng-template pTemplate="content">
+                    <img *ngIf="school.imageUrl" [alt]="school.schoolName" [src]="school.imageUrl" class="mt-0 mx-auto mb-5 block shadow-2" width="150">
+
+
+                    <p-button (click)="op.toggle($event)" styleClass="px-3">
+                        <ng-template pTemplate="button-content">
+                        <span>
+                            <i class="pi pi-search"></i>
+                        </span>
+                            <ng-container *ngIf="selectedImage">
+                                <img [alt]="selectedImage.imageName" [src]="selectedImage.imageUrl" class="flex align-items-center justify-content-center ml-6"
+                                     style="height: 5rem; object-fit: contain"/>
+                            </ng-container>
+                            <ng-container *ngIf="!selectedImage">
+                                <span class="ml-2 font-bold">更换图片</span>
+                            </ng-container>
+                        </ng-template>
+                    </p-button>
+                    <p-overlayPanel #op [showCloseIcon]="true" [style]="{width: '450px'}">
+                        <ng-template pTemplate="overlay-contend">
+                            <p-table (onRowSelect)="onRowSelect($event)" [(selection)]="selectedImage" [paginator]="true" [rows]="4" [value]="images" responsiveLayout="scroll"
+                                     selectionMode="single">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th pSortableColumn="id">ID
+                                            <p-sortIcon field="id"></p-sortIcon>
+                                        </th>
+                                        <th>图片</th>
+                                        <th pSortableColumn="url">图片类型
+                                            <p-sortIcon field="imageType"></p-sortIcon>
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template let-product let-rowData pTemplate="body">
+                                    <tr [pSelectableRow]="rowData">
+                                        <td>{{product.id}}</td>
+                                        <td><img [alt]="product.imageName" [src]="product.imageUrl" class="product-image" height="80" style="object-fit: cover"/></td>
+                                        <td>{{product.imageType}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </ng-template>
+                    </p-overlayPanel>
+
+                    <div class="field mt-4">
+                        <label class="font-serif-sc font-bold text-lg" for="name">学校名称</label>
+                        <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon">
+                            <i class="pi pi-info"></i>
+                        </span>
+                            <input [(ngModel)]="school.schoolName" [ngClass]="{'ng-invalid ng-dirty' : submitted && !school.schoolName}" autofocus id="name" pInputText required
+                                   type="text"/>
+                        </div>
+                        <small *ngIf="submitted && !school.schoolName" class="ng-dirty ng-invalid text-orange-500">请输入学校名称.</small>
+                    </div>
+                    <div class="field mt-5">
+                        <label class="font-serif-sc font-bold text-lg" for="description">学校信息</label>
+                        <textarea [(ngModel)]="school.schoolIntroduction" cols="20" id="description" pInputTextarea required rows="3"></textarea>
+                    </div>
+                    <!-- label 选择，暂时用不上
+                                            <div class="field">
+                                              <label for="status">Inventory Status</label>
+                                              <p-dropdown id="status" [options]="statuses" optionLabel="label" [(ngModel)]="product.inventoryStatus" placeholder="Select a Status">
+                                                <ng-template pTemplate="selectedItem">
+                                                  <span *ngIf="product && product.inventoryStatus" [class]="'product-badge status-' + product.inventoryStatus">{{product.inventoryStatus}}</span>
+                                                </ng-template>
+                                                <ng-template let-status pTemplate="status">
+                                                  <span [class]="'product-badge status-' + status.value.toLowerCase()">{{status.label}}</span>
+                                                </ng-template>
+                                              </p-dropdown>
+                                            </div>
+                    -->
+                    <div class="field mt-5">
+                        <label class="mb-3 font-serif-sc font-bold text-lg">学校分类</label>
+                        <div class="formgrid grid">
+                            <div class="field-radiobutton col-6">
+                                <p-radioButton [(ngModel)]="school.schoolType" id="category1" name="category" value="小学"></p-radioButton>
+                                <label for="category1">小学</label>
+                            </div>
+                            <div class="field-radiobutton col-6">
+                                <p-radioButton [(ngModel)]="school.schoolType" id="category2" name="category" value="中学"></p-radioButton>
+                                <label for="category2">中学</label>
+                            </div>
+                            <div class="field-radiobutton col-6">
+                                <p-radioButton [(ngModel)]="school.schoolType" id="category3" name="category" value="初中"></p-radioButton>
+                                <label for="category3">初中</label>
+                            </div>
+                            <div class="field-radiobutton col-6">
+                                <p-radioButton [(ngModel)]="school.schoolType" id="category4" name="category" value="高中"></p-radioButton>
+                                <label for="category4">高中</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="formgrid grid">
+                        <div class="field col">
+                            <label class="font-serif-sc font-bold text-lg" for="quantity">实习人数</label>
+                            <p-inputNumber [(ngModel)]="school.participantNumber" id="quantity"></p-inputNumber>
+                        </div>
+                        <div class="field col">
+                            <label class="font-serif-sc font-bold text-lg" for="maximum">最大容量</label>
+                            <p-inputNumber [(ngModel)]="school.schoolMax" id="maximum"></p-inputNumber>
+                        </div>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="footer">
+                    <button (click)="hideDialog()" class="p-button-text" icon="pi pi-times" label="取消" pButton pRipple></button>
+                    <button (click)="saveSchool()" class="p-button-text" icon="pi pi-check" label="保存" pButton pRipple></button>
+                </ng-template>
+            </p-dialog>
+
+            <p-dialog [(visible)]="deleteSchoolDialog" [modal]="true" [style]="{width:'450px'}" header="再次确认">
+                <div class="flex align-items-center justify-content-center">
+                    <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                    <span *ngIf="school">您确认要删除 <b>{{school.schoolName}}</b> 吗?</span>
+                </div>
+                <ng-template pTemplate="footer">
+                    <button (click)="deleteSchoolDialog = false" class="p-button-text" icon="pi pi-times" label="No" pButton pRipple></button>
+                    <button (click)="confirmDelete()" class="p-button-text" icon="pi pi-check" label="Yes" pButton pRipple></button>
+                </ng-template>
+            </p-dialog>
+
+            <p-dialog [(visible)]="deleteSchoolsDialog" [modal]="true" [style]="{width:'450px'}" header="再次确认">
+                <div class="flex align-items-center justify-content-center">
+                    <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                    <span>你确定要删除这些学校吗?</span>
+                </div>
+                <ng-template pTemplate="footer">
+                    <button (click)="deleteSchoolsDialog = false" class="p-button-text" icon="pi pi-times" label="No" pButton pRipple></button>
+                    <button (click)="confirmDeleteSelected()" class="p-button-text" icon="pi pi-check" label="Yes" pButton pRipple></button>
+                </ng-template>
+            </p-dialog>
+        </div>
+    </div>
+</div>

@@ -8,6 +8,7 @@ import { KeycloakComponent } from './components/keycloak/keycloak.component';
 import { SchoolComponent } from './components/internship_management/school/school.component';
 import { ClassComponent } from './components/internship_management/class/class.component';
 import { DashboardComponent } from './components/internship_management/dashboard/dashboard.component';
+import { SchoolCRUDComponent } from './components/internship_management/school-crud/school-crud.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
     children: [
       { path: '', component: DashboardComponent },
       { path: 'school', component: SchoolComponent },
+      { path: 'school-crud', component: SchoolCRUDComponent },
       { path: 'class', component: ClassComponent },
     ],
   },

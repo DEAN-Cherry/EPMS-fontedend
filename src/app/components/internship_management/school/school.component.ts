@@ -9,8 +9,9 @@ import { SchoolService } from '../../../service/school.service';
   styleUrls: ['./school.component.scss'],
 })
 export class SchoolComponent implements OnInit {
-  schools: School[] = [];
+  pschools: School[] = [];
 
+  schools: School[] = [];
   sortOptions!: SelectItem[];
 
   sortOrder!: number;
@@ -23,11 +24,36 @@ export class SchoolComponent implements OnInit {
 
   orderCities!: any[];
 
+  //TODO 这下面的都是CRUD所需
+  productDialog!: boolean;
+
+  deleteProductDialog: boolean = false;
+
+  deleteProductsDialog: boolean = false;
+
+  products!: School[];
+
+  product!: School;
+
+  selectedProducts!: School[];
+
+  submitted!: boolean;
+
+  cols!: any[];
+
+  statuses!: any[];
+
+  rowsPerPageOptions = [5, 10, 20];
+
   constructor(private schoolService: SchoolService) {}
 
   ngOnInit() {
-    this.schoolService.getProducts().then((data) => (this.schools = data));
-    console.log(this.schools);
+    this.schoolService.getProducts().then((data) => (this.pschools = data));
+    this.schoolService.getSchools().subscribe((data) => {
+      this.schools = data;
+      console.log(data);
+    });
+    // console.log(this.pschools);
 
     this.sourceCities = [
       { name: 'San Francisco', code: 'SF' },
@@ -51,14 +77,22 @@ export class SchoolComponent implements OnInit {
     ];
 
     this.sortOptions = [
-      { label: '价格降序', value: '!price' },
-      { label: '价格升序', value: 'price' },
+      { label: '降序排序', value: '!schoolName' },
+      { label: '升序排序', value: 'schoolName' },
     ];
+  }
+
+  loadData(event: { first: number; rows: number }) {
+    event.first = 1;
+    event.rows = 5;
+    this.schoolService.getSchools().subscribe((data) => {
+      this.schools = data;
+      console.log(data);
+    });
   }
 
   onSortChange(event: { value: any }) {
     const value = event.value;
-
     if (value.indexOf('!') === 0) {
       this.sortOrder = -1;
       this.sortField = value.substring(1, value.length);
@@ -66,5 +100,8 @@ export class SchoolComponent implements OnInit {
       this.sortOrder = 1;
       this.sortField = value;
     }
+
+    console.log(this.sortOrder);
+    console.log(this.sortField);
   }
 }

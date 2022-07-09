@@ -37,7 +37,7 @@
       <div class="flex justify-content-between lg:block border-top-1 lg:border-top-none surface-border py-3 lg:py-0 mt-3 mr-8 lg:mt-0">
         <button *ngIf="!isLoggedIn" pButton pRipple type="button" (click)="login()" label="登陆/注册"
                 class="p-button-outlined font-sans-sc font-bold px-3 p-button-rounded"></button>
-        <!--登录态显示 //TODO 记得动态绑定图片-->
+        <!--登录态显示 TODO 记得动态绑定图片-->
         <!--        <a routerLink="" class="p-link layout-topbar-button mr-8" *ngIf="isLoggedIn">-->
         <!--          <i class="pi pi-user"></i>-->
         <ng-container *ngIf="userProfile">

@@ -52,6 +52,11 @@ export class MenuComponent implements OnInit {
             routerLink: ['/dashboard/school'],
           },
           {
+            label: '学校管理',
+            icon: 'pi pi-fw pi-home',
+            routerLink: ['/dashboard/school-crud'],
+          },
+          {
             label: '实习班级',
             icon: 'pi pi-fw pi-home',
             routerLink: ['/dashboard/class'],

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { map, tap, catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { School } from '../api/school';
 
 @Injectable({
@@ -10,14 +10,31 @@ import { School } from '../api/school';
 export class SchoolService {
   constructor(private http: HttpClient) {}
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-  };
+  getSchools(): Observable<any> {
+    return this.http.get<any>('https://localhost:5200/api/Schools').pipe(
+      tap((_) => this.log('数据库连接测试：fetched schools')),
+      catchError(this.handleError<any>('getSchools', []))
+    );
+  }
 
-  getTests(): Observable<any> {
-    return this.http.get<any>('api/Tests').pipe(
-      tap((_) => this.log('fetched tests')),
-      catchError(this.handleError<any>('getTests', []))
+  createSchool(school: School): Observable<any> {
+    return this.http.post<any>('api/Schools', school).pipe(
+      tap((_) => this.log('更新数据库：created school')),
+      catchError(this.handleError<any>('createSchool'))
+    );
+  }
+
+  updateSchool(school: School): Observable<any> {
+    return this.http.put<any>('api/Schools/' + school.id, school).pipe(
+      tap((_) => this.log('更新数据库：updated school')),
+      catchError(this.handleError<any>('updateSchool'))
+    );
+  }
+
+  deleteSchool(id: number): Observable<any> {
+    return this.http.delete<any>('api/Schools/' + id).pipe(
+      tap((_) => this.log('更新数据库：deleted school')),
+      catchError(this.handleError<any>('deleteSchool'))
     );
   }
 
